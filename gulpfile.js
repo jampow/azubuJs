@@ -10,9 +10,10 @@ var lib = 'lib/azubu-api.js';
 
 gulp.task('default', ['build']);
 
-gulp.task('watch', function(){
-	watch(['test/**/*.js', lib], batch(function(events, done) {
-		gulp.start('test', done);
+gulp.task('watch',['test'], function(){
+//	watch(['test/**/*.js', lib], ['test']);
+	watch(['test/**/*.js', lib], batch(function(event, done){
+		gulp.start('test',done);
 	}));
 });
 
@@ -31,7 +32,7 @@ gulp.task('test-build', function(){
 		.pipe(gulp.dest('dist'));
 });
 
-gulp.task('test', ['test-build'], function(){
-	return gulp.src('test/**/*.js')
-		pipe(mocha());
+gulp.task('test', function(){
+	return gulp.src('test/**/*.js', {read: false})
+		.pipe(mocha());
 });
