@@ -1,0 +1,31 @@
+{
+  "name": "azubu-js",
+  "version": "0.0.0",
+  "description": "lib para consumir a api da azubu",
+  "main": "azubu-api.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@stash.uol.intranet:7999/~gsoares/azubu-api.git"
+  },
+  "keywords": [
+    "azubu",
+    "jogos",
+    "api",
+    "stream"
+  ],
+  "author": "Gianpaulo M. Soares",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "gulp": "^3.9.0",
+    "gulp-batch": "^1.0.5",
+    "gulp-mocha": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^1.5.1",
+    "gulp-watch": "^4.3.5"
+  }
+}

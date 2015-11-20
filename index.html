@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Azubu API test</title>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="azubu-api.js"></script>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		#responseJson {
+			border: 1px solid #000;
+			height: 300px;
+			overflow: auto;
+			display: none;
+		}
+
+		.preview {
+			margin: 20px;
+		}
+
+		.live {
+			height: 400px;
+			width: 20%;
+			display: inline-block;
+			/*background-color: green;*/
+			overflow: auto;
+
+		}
+
+		.embed {
+			height: 400px;
+			width: 75%;
+			display: inline-block;
+			/*background-color: red;*/
+		}
+
+		.live a {
+			text-decoration: none;
+			
+		}
+		
+		.live a:hover {
+			background-color: grey;
+		}
+		
+		.live a img {
+			float: left;
+		}
+	</style>
+</head>
+<body>
+
+	<button id="toggleResponseJson">Toggle Response JSON</button>
+
+	<button id="listStreams">listar streams</button>
+
+	<button id="userActiveVideo">Vídeo ativo do usuário</button>
+
+
+
+	<pre id="responseJson"></pre>
+
+
+
+	<section class="preview">
+		<ul class="live">
+			<li>lista vazia</li>
+		</ul>
+		<div class="embed"></div>
+	</section>
+
+
+
+	<script type="text/javascript">
+		$(function(){
+			$('#toggleResponseJson').on('click', function(){
+				$('#responseJson').toggle();
+			});
+
+			$('#listStreams').on('click', function(){
+				azubuApi.listLiveStream(function(data){
+					console.log("callback", data);
+					$('#responseJson').html(JSON.stringify(data.data, null, 4));
+
+					var i = 0;
+					var dataLen = data.data.length
+					var mkp = '';
+
+					for(;i < dataLen; i++) {
+						var stream = data.data[i];
+						mkp += '<li><a href="javascript:void(0);" data-username="' + stream.user.username + '">' + 
+								'<img src="' + stream.user.profile.url_photo_small + '" />' + 
+								'<h3>' + stream.user.username + '</h3>' + 
+								'<span class="title">' + stream.title + '</span>' + 
+								'<span class="watching">' + stream.view_count + '</span>' + 
+								'</li></a>'
+					}
+
+					$('.live').html(mkp);
+
+				});
+			});
+
+
+			$('.live').on('click', 'a', function(){
+				
+				var self = $(this);
+
+				azubuApi.userLiveNow(self.data('username'), function(data){
+					console.log("callback", data);
+					console.log("url", 'http://players.brightcove.net/3361910549001/13b53caa-9aa1-48be-a9f2-657520f437af_default/index.html?videoId=ref:'+data.data[0].reference_id);
+
+					$('#responseJson').html(JSON.stringify(data.data, null, 4));
+
+					$('.embed').html('<iframe height="100%" width="100%" src="http://players.brightcove.net/3361910549001/13b53caa-9aa1-48be-a9f2-657520f437af_default/index.html?videoId=ref:'+data.data[0].reference_id+'">');
+				});
+
+			});
+
+		});
+	</script>
+</body>
+</html>
