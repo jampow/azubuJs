@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@stash.uol.intranet:7999/~gsoares/azubu-api.git"
+    "url": ""
   },
   "keywords": [
     "azubu",
